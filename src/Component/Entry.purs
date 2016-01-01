@@ -2,18 +2,15 @@ module Component.Entry where
 
 import Prelude
 
--- import Data.Const (Const(), getConst)
--- import Data.Void (Void(), absurd)
+import Data.Const (Const(), getConst)
+import Data.Void (Void(), absurd)
 
 import Halogen (Component(), component, ComponentDSL(), ComponentHTML(), Natural())
 import qualified Halogen.HTML.Indexed as H
--- import qualified Halogen.HTML.Properties.Indexed as P
--- import qualified Halogen.HTML.Events.Indexed as E
 
 import Model
 
--- TODO: Try to figure out how to use this with Const Void
-data EntryQuery a = EntryQuery a
+type EntryQuery = Const Void
 
 entry :: forall g. (Functor g) => Component Entry EntryQuery g
 entry = component render eval
@@ -24,4 +21,4 @@ entry = component render eval
     H.div_ [H.text $ e.keyword ++ " : " ++ e.kaomoji]
 
   eval :: Natural EntryQuery (ComponentDSL Entry EntryQuery g)
-  eval (EntryQuery next) = pure next
+  eval = absurd <<< getConst
