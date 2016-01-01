@@ -1,0 +1,17 @@
+{
+  "name": "purescript-kaomoji",
+  "version": "1.0.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-console": "^0.1.0",
+    "purescript-affjax": "^0.8.0",
+    "purescript-halogen": "*",
+    "purescript-generics": "~0.7.0"
+  }
+}
