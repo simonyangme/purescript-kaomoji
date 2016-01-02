@@ -68,6 +68,7 @@ ui = parentComponent render eval
   eval :: forall g. EvalParent ListQuery List Entry ListQuery EntryQuery (Aff (ajax :: AJAX, console :: CONSOLE | g)) EntrySlot
   eval (AddEntry next) = do
     nextId <- gets _.nextId
+    modify incId
     keyword <- gets _.keyword
     result <- liftH $ liftAff' $ (fetchKeyword $ Just keyword)
     modify <<< addEntry $ { keyword: if null keyword then "random" else keyword, kaomoji: result, id: nextId }
@@ -77,7 +78,10 @@ ui = parentComponent render eval
     pure next
 
 addEntry :: Entry -> List -> List
-addEntry e l = l { entries = e : l.entries, nextId = l.nextId + 1 }
+addEntry e l = l { entries = e : l.entries }
+
+incId :: List -> List
+incId l = l { nextId = l.nextId + 1 }
 
 fetchKeyword :: forall eff. Maybe String -> Aff (ajax :: AJAX | eff) String
 fetchKeyword keyword = do
