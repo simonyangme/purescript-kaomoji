@@ -7,11 +7,14 @@ machine:
 
 dependencies:
   pre:
-    - npm install purescript
+    - npm install -g purescript gulp
   override:
     - npm install
     - bower install
-    
+  cache_directories:
+    - /home/ubuntu/nvm/versions/node/v5.1.0/bin
+    - /home/ubuntu/nvm/versions/node/v5.1.0/lib/node_modules
+
 test:
   pre:
     - gulp
