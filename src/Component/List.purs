@@ -23,19 +23,19 @@ import qualified Halogen.HTML.Properties.Indexed as P
 import Network.HTTP.Affjax (AJAX(), get)
 import Control.Monad.Eff.Console (CONSOLE())
 
-import Component.Entry
+import qualified Component.Entry as Entry
 import Model
 
-data ListQuery a = AddEntry a
-                 | UpdateKeyword String a
+data Query a = AddEntry a
+             | UpdateKeyword String a
 
 newtype EntrySlot = EntrySlot EntryId
 derive instance genericEntrySlot :: Generic EntrySlot
 instance eqEntrySlot :: Eq EntrySlot where eq = gEq
 instance ordEntrySlot :: Ord EntrySlot where compare = gCompare
 
-type StateP g = InstalledState List Entry ListQuery EntryQuery g EntrySlot
-type QueryP = Coproduct ListQuery (ChildF EntrySlot EntryQuery)
+type StateP g = InstalledState List Entry Query Entry.Query g EntrySlot
+type QueryP = Coproduct Query (ChildF EntrySlot Entry.Query)
 
 type AppEffects eff = HalogenEffects (ajax :: AJAX, console :: CONSOLE | eff)
 
@@ -43,7 +43,7 @@ ui :: forall eff. Component (StateP (Aff (AppEffects eff))) QueryP (Aff (AppEffe
 ui = parentComponent render eval
   where
 
-  render :: forall g. (Functor g) => List -> ParentHTML Entry ListQuery EntryQuery g EntrySlot
+  render :: forall g. (Functor g) => List -> ParentHTML Entry Query Entry.Query g EntrySlot
   render st =
     H.div_
       [ H.h1_
@@ -62,10 +62,10 @@ ui = parentComponent render eval
       , H.ul_ (map renderEntry st.entries)
       ]
 
-  renderEntry :: forall g. (Functor g) => Entry -> ParentHTML Entry ListQuery EntryQuery g EntrySlot
-  renderEntry e = H.slot (EntrySlot e.id) \_ -> { component: entry, initialState: e }
+  renderEntry :: forall g. (Functor g) => Entry -> ParentHTML Entry Query Entry.Query g EntrySlot
+  renderEntry e = H.slot (EntrySlot e.id) \_ -> { component: Entry.ui, initialState: e }
 
-  eval :: forall g. EvalParent ListQuery List Entry ListQuery EntryQuery (Aff (ajax :: AJAX, console :: CONSOLE | g)) EntrySlot
+  eval :: forall g. EvalParent Query List Entry Query Entry.Query (Aff (ajax :: AJAX, console :: CONSOLE | g)) EntrySlot
   eval (AddEntry next) = do
     nextId <- gets _.nextId
     modify incId

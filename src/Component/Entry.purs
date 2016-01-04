@@ -10,15 +10,15 @@ import qualified Halogen.HTML.Indexed as H
 
 import Model
 
-type EntryQuery = Const Void
+type Query = Const Void
 
-entry :: forall g. (Functor g) => Component Entry EntryQuery g
-entry = component render eval
+ui :: forall g. (Functor g) => Component Entry Query g
+ui = component render eval
   where
 
-  render :: Entry -> ComponentHTML EntryQuery
+  render :: Entry -> ComponentHTML Query
   render e =
     H.div_ [H.text $ e.keyword ++ " : " ++ e.kaomoji]
 
-  eval :: Natural EntryQuery (ComponentDSL Entry EntryQuery g)
+  eval :: Natural Query (ComponentDSL Entry Query g)
   eval = absurd <<< getConst
