@@ -11,6 +11,8 @@ dependencies:
   cache_directories:
     - /home/ubuntu/nvm/versions/node/v5.1.0/bin
     - /home/ubuntu/nvm/versions/node/v5.1.0/lib/node_modules
+    - "bower_components"
+    - "node_modules"
 
 test:
   pre:
