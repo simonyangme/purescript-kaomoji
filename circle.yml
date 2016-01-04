@@ -8,7 +8,8 @@ dependencies:
   override:
     - npm install
     - bower install
-    - gulp
+    - gulp:
+      timeout: 1200
   cache_directories:
     - /home/ubuntu/nvm/versions/node/v5.1.0/bin
     - /home/ubuntu/nvm/versions/node/v5.1.0/lib/node_modules
