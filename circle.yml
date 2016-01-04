@@ -9,7 +9,7 @@ dependencies:
     - npm install
     - bower install
     - gulp:
-      timeout: 1200
+        timeout: 1200
   cache_directories:
     - /home/ubuntu/nvm/versions/node/v5.1.0/bin
     - /home/ubuntu/nvm/versions/node/v5.1.0/lib/node_modules
