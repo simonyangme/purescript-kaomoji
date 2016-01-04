@@ -1,0 +1,17 @@
+machine:
+  node:
+    version: v5.1.0
+
+dependencies:
+  pre:
+    - npm install -g purescript gulp
+  override:
+    - npm install
+    - bower install
+    - gulp
+  cache_directories:
+    - /home/ubuntu/nvm/versions/node/v5.1.0/bin
+    - /home/ubuntu/nvm/versions/node/v5.1.0/lib/node_modules
+    - "bower_components"
+    - "node_modules"
+    - "output"
