@@ -70,7 +70,7 @@ ui = parentComponent render eval
     nextId <- gets _.nextId
     modify incId
     keyword <- gets _.keyword
-    result <- liftH $ liftAff' $ (fetchKeyword $ Just keyword)
+    result <- liftH $ liftAff' $ (fetchKeyword nextId $ Just keyword)
     modify <<< addEntry $ { keyword: if null keyword then "random" else keyword, kaomoji: result, id: nextId }
     pure next
   eval (UpdateKeyword kw next) = do
@@ -83,9 +83,9 @@ addEntry e l = l { entries = e : l.entries }
 incId :: List -> List
 incId l = l { nextId = l.nextId + 1 }
 
-fetchKeyword :: forall eff. Maybe String -> Aff (ajax :: AJAX | eff) String
-fetchKeyword keyword = do
-  result <- get $ "./entry?keyword=" ++ maybe "" id keyword
+fetchKeyword :: forall eff. EntryId -> Maybe String -> Aff (ajax :: AJAX | eff) String
+fetchKeyword eid keyword = do
+  result <- get $ "./entry?keyword=" ++ maybe "" id keyword ++ "&" ++ show eid
   let response = result.response
   return case readProp "kaomojiText" response of
     Right t -> t
