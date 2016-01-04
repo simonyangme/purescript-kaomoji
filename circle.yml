@@ -11,4 +11,7 @@ dependencies:
   override:
     - npm install
     - bower install
-  
+    
+test:
+  pre:
+    - gulp
