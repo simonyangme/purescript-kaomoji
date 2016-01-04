@@ -1,7 +1,4 @@
 machine:
-
-  timezone:
-    America/Los_Angeles # Set the timezone
   node:
     version: v5.1.0
 
